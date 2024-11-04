@@ -1,6 +1,29 @@
+#include <TinyGPS++.h>
 #include <WiFi.h>
 #include <Arduino.h>
 #include <PubSubClient.h>
+
+// Define the RX and TX pins for Serial 2
+#define RXD2 16
+#define TXD2 17
+#define GPS_BAUD 9600
+
+// The TinyGPS++ object
+TinyGPSPlus gps;
+
+// Create an instance of the HardwareSerial class for Serial 2
+HardwareSerial gpsSerial(2);
+
+float latitude = 23.876835;
+float longitude = 90.320223;
+int count_se = 1;
+float v_speed = 0.0;
+
+unsigned long previousMillis = 0;
+unsigned long interval = 30000; // 30 seconds for WiFi reconnection
+
+WiFiClient wifiClient;
+PubSubClient mqttClient(wifiClient);
 
 const char *ssid = "IoT";
 const char *password = "61179318";
@@ -49,13 +72,6 @@ void initWiFi()
 
 void setup()
 {
-    Serial.begin(9600);
-    initWiFi();
-    setupMQTT();
-}
-
-void loop()
-{
     Serial.begin(115200);
     gpsSerial.begin(GPS_BAUD, SERIAL_8N1, RXD2, TXD2);
     Serial.println("Serial 2 started at 9600 baud rate");
@@ -83,4 +99,34 @@ void loop()
     }
 
     mqttClient.loop();
+
+    // Process GPS data
+    while (gpsSerial.available() > 0)
+    {
+        gps.encode(gpsSerial.read());
+    }
+
+    if (gps.location.isUpdated())
+    {
+        latitude = gps.location.lat();
+        longitude = gps.location.lng();
+        count_se = gps.satellites.value();
+        v_speed = gps.speed.kmph();
+
+        Serial.print("LAT: ");
+        Serial.println(latitude, 6);
+        Serial.print("LONG: ");
+        Serial.println(longitude, 6);
+        Serial.print("Satellites = ");
+        Serial.println(count_se);
+
+        if (v_speed <= 5.0)
+        {
+            v_speed = 0.0;
+        }
+
+        Serial.print("SPEED (km/h) = ");
+        Serial.println(v_speed);
+        Serial.println("");
+    }
 }
