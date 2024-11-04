@@ -1,10 +1,16 @@
 #include <WiFi.h>
 #include <Arduino.h>
-
-
+#include <PubSubClient.h>
 
 const char *ssid = "IoT";
 const char *password = "61179318";
+const char *mqttServer = "broker.hivemq.com";
+int mqttPort = 1883;
+
+void setupMQTT()
+{
+    mqttClient.setServer(mqttServer, mqttPort);
+}
 
 void initWiFi()
 {
@@ -23,9 +29,10 @@ void setup()
 {
     Serial.begin(9600);
     initWiFi();
+    setupMQTT();
 }
 
 void loop()
 {
-
+    mqttClient.loop();
 }
