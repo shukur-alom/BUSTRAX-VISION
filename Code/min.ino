@@ -133,5 +133,5 @@ void loop()
     String payload = String(latitude, 7) + "," + String(longitude, 7) + "," + String(count_se) + "," + String(v_speed);
     mqttClient.publish("gps/53384", payload.c_str());
 
-    delay(1000);
+    delay(200);
 }
