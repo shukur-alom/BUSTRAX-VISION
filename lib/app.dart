@@ -1,5 +1,5 @@
 import 'package:diu_bus_tracking/controller_binder.dart';
-import 'package:diu_bus_tracking/view/screen/mqtt_data_screen.dart';
+import 'package:diu_bus_tracking/view/screen/auth/splash_screen.dart';
 import 'package:diu_bus_tracking/view/utility/app_theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: AppThemeData.lightThemeData,
       initialBinding: ControllerBinder(),
-      home: const MqttDataScreen(),
+      home: const SplashScreen(),
     );
   }
 }
