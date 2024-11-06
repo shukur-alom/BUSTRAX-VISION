@@ -2,6 +2,21 @@ import streamlit as st
 import pydeck as pdk
 import time
 import paho.mqtt.client as paho
+from streamlit_lottie import st_lottie
+import json
+
+
+# Load Lottie animation from a local JSON file
+def load_lottiefile(filepath: str):
+    with open(filepath, "r") as f:
+        return json.load(f)
+
+
+lottie_bus_animation = load_lottiefile("bus.json")  # Path to your Lottie JSON file
+
+
+st_lottie(lottie_bus_animation, height=200, key="bus_animation")
+
 
 # Hide Streamlit menu and footer
 hide_menu_style = """
@@ -13,7 +28,7 @@ hide_menu_style = """
         """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
-st.subheader("Daaffodil Bus Tracking System")
+st.subheader("Daffodil Bus Tracking System")
 
 # MQTT client setup
 try:
