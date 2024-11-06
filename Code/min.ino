@@ -14,6 +14,27 @@ void setupMQTT()
     mqttClient.setServer(mqttServer, mqttPort);
 }
 
+void reconnectMQTT()
+{
+    while (!mqttClient.connected())
+    {
+        Serial.print("Attempting MQTT connection...");
+        String clientId = "ESP32Client-";
+        clientId += String(random(0xffff), HEX);
+        if (mqttClient.connect(clientId.c_str()))
+        {
+            Serial.println("Connected to MQTT broker.");
+        }
+        else
+        {
+            Serial.print("failed, rc=");
+            Serial.print(mqttClient.state());
+            Serial.println(" try again in 5 seconds");
+            delay(5000);
+        }
+    }
+}
+
 void initWiFi()
 {
     WiFi.mode(WIFI_STA);
@@ -31,6 +52,9 @@ void initWiFi()
 void setup()
 {
     Serial.begin(115200);
+    gpsSerial.begin(GPS_BAUD, SERIAL_8N1, RXD2, TXD2);
+    Serial.println("Serial 2 started at 9600 baud rate");
+
     initWiFi();
     setupMQTT();
 }
@@ -47,4 +71,11 @@ void loop()
             initWiFi();
         }
     }
+
+    if (!mqttClient.connected())
+    {
+        reconnectMQTT();
+    }
+
+    mqttClient.loop();
 }
