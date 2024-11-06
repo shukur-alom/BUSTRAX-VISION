@@ -13,9 +13,10 @@ try:
 
 except: print("\n\n\n\t\tCheck Your Internet Connection\n\n")
 
-latitude = 23.7840857
-longitude = 90.3452895
-set_count = 0
+latitude = 23.876835
+longitude = 90.320223
+set_count = 1
+speed = 0.0
 
 def on_message(client, userdata, msg):
     global latitude
@@ -26,20 +27,22 @@ def on_message(client, userdata, msg):
         latitude = float(cor[0])
         longitude = float(cor[1])
         set_count = int(cor[2])
+        speed = float(cor[3])
 
 
 def generate_random_data():
     return [
         {
-            "lat": 37.7749 + random.uniform(-0.01, 0.01),
-            "lon": -122.4194 + random.uniform(-0.01, 0.01),
+            "lat": latitude,
+            "lon": longitude,
             "icon_data": {
                 "url": "https://img.icons8.com/emoji/48/000000/bus-emoji.png",  # URL of the bus icon
                 "width": 128,
                 "height": 128,
                 "anchorY": 128
             },
-            "info": f"Bus at ({round(37.7749 + random.uniform(-0.01, 0.01), 4)}, {round(-122.4194 + random.uniform(-0.01, 0.01), 4)})"  # Custom information for each bus
+            "info": f"""Bus ID : 53384\nSet : {set_count}\n
+            Speed : {speed}"""  # Custom information for each bus
         }
     ]
 
@@ -52,15 +55,15 @@ icon_layer = pdk.Layer(
     data=map_data,
     get_icon="icon_data",
     get_position="[lon, lat]",
-    get_size=25,  # Increased size for the bus icon
+    get_size=18,  # Increased size for the bus icon
     pickable=True,
 )
 
 
 view_state = pdk.ViewState(
-    latitude=37.7749,
-    longitude=-122.4194,
-    zoom=12,
+    latitude=latitude,
+    longitude=longitude,
+    zoom=15,
     pitch=50,
 )
 
@@ -88,9 +91,10 @@ st.write("Tracking Bus Location in Real-Time:")
 while True:
     time.sleep(1)
     client.on_message = on_message
-
     map_data = generate_random_data()
+
     icon_layer.data = map_data  
+    
     map.pydeck_chart(pdk.Deck(
         map_style="mapbox://styles/mapbox/light-v9",
         layers=[icon_layer],
