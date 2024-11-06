@@ -1,9 +1,18 @@
 #include <WiFi.h>
+#include <PubSubClient.h>
 
 WiFiClient wifiClient;
+PubSubClient mqttClient(wifiClient);
 
 const char *ssid = "IoT";
 const char *password = "61179318";
+const char *mqttServer = "broker.hivemq.com";
+int mqttPort = 1883;
+
+void setupMQTT()
+{
+    mqttClient.setServer(mqttServer, mqttPort);
+}
 
 void initWiFi()
 {
@@ -23,6 +32,7 @@ void setup()
 {
     Serial.begin(115200);
     initWiFi();
+    setupMQTT();
 }
 
 void loop()
