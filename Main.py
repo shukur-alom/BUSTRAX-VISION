@@ -2,6 +2,30 @@ import streamlit as st
 import pydeck as pdk
 import time
 import random
+import paho.mqtt.client as paho
+
+
+try:
+    client = paho.Client()
+    client.connect('broker.hivemq.com', 1883)
+    client.loop_start()
+    client.subscribe('gps/53384', qos=1)
+
+except: print("\n\n\n\t\tCheck Your Internet Connection\n\n")
+
+latitude = 23.7840857
+longitude = 90.3452895
+set_count = 0
+
+def on_message(client, userdata, msg):
+    global latitude
+    global longitude
+    global set_count
+    if msg.topic == "gps/53384":
+        cor = str(msg.payload)[2:-1].split(",")
+        latitude = float(cor[0])
+        longitude = float(cor[1])
+        set_count = int(cor[2])
 
 
 def generate_random_data():
@@ -62,7 +86,9 @@ map = st.pydeck_chart(pdk.Deck(
 
 st.write("Tracking Bus Location in Real-Time:")
 while True:
-    time.sleep(5)
+    time.sleep(1)
+    client.on_message = on_message
+
     map_data = generate_random_data()
     icon_layer.data = map_data  
     map.pydeck_chart(pdk.Deck(
