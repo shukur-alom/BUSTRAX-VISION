@@ -13,9 +13,7 @@ hide_menu_style = """
         """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
-# Streamlit title
-#st.title("Daaffodil Bus Tracking System")
-st.text("Bus ID: 53384")
+st.subheader("Daaffodil Bus Tracking System")
 
 # MQTT client setup
 try:
