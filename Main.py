@@ -1,27 +1,41 @@
 import streamlit as st
 import pydeck as pdk
 import time
-import random
 import paho.mqtt.client as paho
 
+# Hide Streamlit menu and footer
+hide_menu_style = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        header {visibility: hidden;}
+        </style>
+        """
+st.markdown(hide_menu_style, unsafe_allow_html=True)
 
+# Streamlit title
+#st.title("Daaffodil Bus Tracking System")
+st.text("Bus ID: 53384")
+
+# MQTT client setup
 try:
     client = paho.Client()
     client.connect('broker.hivemq.com', 1883)
     client.loop_start()
     client.subscribe('gps/53384', qos=1)
 
-except: print("\n\n\n\t\tCheck Your Internet Connection\n\n")
+except:
+    print("\n\n\n\t\tCheck Your Internet Connection\n\n")
 
+# Initial coordinates
 latitude = 23.876835
 longitude = 90.320223
 set_count = 1
 speed = 0.0
 
+# Function to handle MQTT messages
 def on_message(client, userdata, msg):
-    global latitude
-    global longitude
-    global set_count
+    global latitude, longitude, set_count, speed
     if msg.topic == "gps/53384":
         cor = str(msg.payload)[2:-1].split(",")
         latitude = float(cor[0])
@@ -29,27 +43,27 @@ def on_message(client, userdata, msg):
         set_count = int(cor[2])
         speed = float(cor[3])
 
-
+# Function to generate random data for the bus location
 def generate_random_data():
     return [
         {
             "lat": latitude,
             "lon": longitude,
             "icon_data": {
-                "url": "https://img.icons8.com/emoji/48/000000/bus-emoji.png",  # URL of the bus icon
+                "url": "https://img.icons8.com/emoji/48/000000/bus-emoji.png",  # Bus icon
                 "width": 128,
                 "height": 128,
                 "anchorY": 128
             },
-            "info": f"""Bus ID : 53384\nSet : {set_count}\n
-            Speed : {speed}"""  # Custom information for each bus
+            "bus_info": f"Bus ID : 53384",
+            "set_info": f"Set : {set_count}, Speed : {speed}"
         }
     ]
 
-st.title("Live Location Map with Bus Icon and Tooltip")
-
+# Generate the initial map data
 map_data = generate_random_data()
 
+# Create the icon layer for the map
 icon_layer = pdk.Layer(
     "IconLayer",
     data=map_data,
@@ -59,7 +73,7 @@ icon_layer = pdk.Layer(
     pickable=True,
 )
 
-
+# Initial map view state
 view_state = pdk.ViewState(
     latitude=latitude,
     longitude=longitude,
@@ -67,18 +81,19 @@ view_state = pdk.ViewState(
     pitch=50,
 )
 
+# Tooltip configuration (without latitude and longitude)
 tooltip = {
-    "html": "<b>{info}</b><br>Latitude: {lat}<br>Longitude: {lon}",
+    "html": "<b>{bus_info}</b> <br>{set_info}",  # Only show bus info without latitude and longitude
     "style": {
-        "color": "white",
-        "backgroundColor": "black",
+        "color": "black",
+        "backgroundColor": "white",
         "fontSize": "12px",
         "padding": "5px",
         "borderRadius": "5px"
     }
 }
 
-
+# Display map
 map = st.pydeck_chart(pdk.Deck(
     map_style="mapbox://styles/mapbox/light-v9",
     layers=[icon_layer],
@@ -86,15 +101,16 @@ map = st.pydeck_chart(pdk.Deck(
     tooltip=tooltip 
 ))
 
-
-st.write("Tracking Bus Location in Real-Time:")
+# Live update of bus location based on MQTT
 while True:
     time.sleep(1)
     client.on_message = on_message
     map_data = generate_random_data()
 
+    # Update the map with new data
     icon_layer.data = map_data  
-    
+
+    # Re-render map with updated GPS coordinates
     map.pydeck_chart(pdk.Deck(
         map_style="mapbox://styles/mapbox/light-v9",
         layers=[icon_layer],
