@@ -1,5 +1,10 @@
 #include <WiFi.h>
 
+WiFiClient wifiClient;
+
+const char *ssid = "IoT";
+const char *password = "61179318";
+
 void initWiFi()
 {
     WiFi.mode(WIFI_STA);
@@ -17,10 +22,19 @@ void initWiFi()
 void setup()
 {
     Serial.begin(115200);
-
     initWiFi();
 }
 
 void loop()
 {
+    if (WiFi.status() != WL_CONNECTED)
+    {
+        unsigned long currentMillis = millis();
+        if (currentMillis - previousMillis >= interval)
+        {
+            previousMillis = currentMillis;
+            WiFi.disconnect();
+            initWiFi();
+        }
+    }
 }
