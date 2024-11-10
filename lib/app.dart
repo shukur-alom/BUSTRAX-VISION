@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
-      theme: AppThemeData.lightThemeData,
+      theme: AppThemeData.studentThemeData,
       initialBinding: ControllerBinder(),
       home: const SplashScreen(),
     );

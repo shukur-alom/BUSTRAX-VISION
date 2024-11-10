@@ -1,5 +1,9 @@
+import 'package:diu_bus_tracking/view/screen/auth/admin/admin_log_in_screen.dart';
+import 'package:diu_bus_tracking/view/screen/auth/student/complete_profile_screen.dart';
 import 'package:diu_bus_tracking/view/utility/assets_path.dart';
+import 'package:diu_bus_tracking/view/widgets/auth/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class IdentityVerificationScreen extends StatefulWidget {
@@ -57,7 +61,37 @@ class _IdentityVerificationScreenState
                     style: GoogleFonts.ubuntu(fontSize: 14),
                   ),
                 ],
-              )
+              ),
+              const SizedBox(
+                height: 70,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CustomElevatedButton(
+                    label: "Student",
+                    backgroundColor: Colors.deepPurple,
+                    onPressed: () {
+                      Get.to(const CompleteProfileScreen());
+                    },
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      bottomLeft: Radius.circular(8),
+                    ),
+                  ),
+                  CustomElevatedButton(
+                    label: "Admin",
+                    backgroundColor: Colors.black,
+                    onPressed: () {
+                      Get.to(const AdminLogInScreen());
+                    },
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(8),
+                      bottomRight: Radius.circular(8),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

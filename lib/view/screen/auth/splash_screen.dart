@@ -1,10 +1,10 @@
-import 'package:diu_bus_tracking/utils/app_colors.dart';
 import 'package:diu_bus_tracking/view/screen/auth/identity_verification_screen.dart';
 import 'package:diu_bus_tracking/view/utility/assets_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -28,7 +28,17 @@ class _SplashScreenState extends State<SplashScreen>
   void moveToNextScreen() async {
     await Future.delayed(const Duration(seconds: 3));
     // if (isLoggedIn) {
-    Get.offAll(() => const IdentityVerificationScreen());
+    Get.offAll(
+      () => const IdentityVerificationScreen(),
+      transition: Transition.noTransition,
+      duration: Duration.zero,
+      predicate: (route) => false,
+      routeName: const IdentityVerificationScreen().runtimeType.toString(),
+      arguments: PageTransition(
+        type: PageTransitionType.rightToLeft, // Choose your animation type
+        child: const IdentityVerificationScreen(),
+      ),
+    );
     // } else {
     //   Get.offAll(const VerifyEmailScreen());
     // }
@@ -63,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen>
               Text(
                 "DIU Bus\n Tracker",
                 style: GoogleFonts.acme(
-                    color: AppColors.splashTextColor,
+                    color: Colors.deepPurple,
                     fontSize: 50,
                     fontWeight: FontWeight.bold),
               ),
