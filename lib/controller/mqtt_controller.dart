@@ -12,6 +12,18 @@ class MqttController extends GetxController {
   late MqttServerClient client;
   var isConnected = false.obs;
 
+  // Define Rx variables for latitude, longitude, satelliteConnection, and speed
+  final RxDouble _latitude = 0.0.obs;
+  final RxDouble _longitude = 0.0.obs;
+  final RxInt _satelliteConnection = 0.obs;
+  final RxDouble _speed = 0.0.obs;
+
+  // Getters to expose these variables
+  double get latitude => _latitude.value;
+  double get longitude => _longitude.value;
+  int get satelliteConnection => _satelliteConnection.value;
+  double get speed => _speed.value;
+
   @override
   void onInit() {
     super.onInit();
@@ -52,17 +64,6 @@ class MqttController extends GetxController {
       print('Connected to broker');
       isConnected.value = true;
 
-      const topic = 'test/10';
-      const payload = '23.44,22.444,14,250';
-
-      // Convert the payload to a Uint8List
-      final builder = MqttClientPayloadBuilder();
-      builder.addString(payload);
-
-      // Publish the message to the specified topic
-      client.publishMessage(topic, MqttQos.atMostOnce, builder.payload!);
-      print('Published message: $payload to topic: $topic');
-
       subscribeToTopic('test/611');
     } else {
       print('Connection failed');
@@ -79,15 +80,14 @@ class MqttController extends GetxController {
 
       mqttModel.message.value = payload;
       print('Received message: $payload');
-      // Split the payload by comma
       final data = payload.split(',');
 
       if (data.length >= 4) {
-        // Parse each value from the payload
-        final latitude = double.tryParse(data[0]) ?? 0.0;
-        final longitude = double.tryParse(data[1]) ?? 0.0;
-        final satelliteConnection = int.tryParse(data[2]) ?? 0;
-        final speed = double.tryParse(data[3]) ?? 0.0;
+        // Update the Rx variables when data is received
+        _latitude.value = double.tryParse(data[0]) ?? 0.0;
+        _longitude.value = double.tryParse(data[1]) ?? 0.0;
+        _satelliteConnection.value = int.tryParse(data[2]) ?? 0;
+        _speed.value = double.tryParse(data[3]) ?? 0.0;
 
         print('Latitude: $latitude');
         print('Longitude: $longitude');
@@ -96,11 +96,11 @@ class MqttController extends GetxController {
       } else {
         print('Received data does not match expected format');
       }
+      update();
     });
   }
 
   void reconnect() {
-    // Attempt reconnection after a delay if not connected
     if (!isConnected.value) {
       Future.delayed(Duration(seconds: 5), () {
         print('Attempting to reconnect...');

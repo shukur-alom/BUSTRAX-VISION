@@ -1,8 +1,9 @@
 import 'dart:async';
 
+import 'package:diu_bus_tracking/controller/mqtt_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -16,14 +17,13 @@ class _MapScreenState extends State<MapScreen> {
   static const LatLng _dhanmondiBus =
       LatLng(23.755140315302626, 90.3765273962015);
   LatLng? _currentP;
-  final Location _locationController = Location();
   final Completer<GoogleMapController> _mapController =
       Completer<GoogleMapController>();
+  final mqttController = Get.find<MqttController>();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getLocationUpdate();
   }
 
   @override
@@ -34,71 +34,18 @@ class _MapScreenState extends State<MapScreen> {
         backgroundColor: Colors.black12,
         centerTitle: true,
       ),
-      body: _currentP == null
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : GoogleMap(
-              onMapCreated: ((GoogleMapController controller) =>
-                  _mapController.complete(controller)),
-              initialCameraPosition: const CameraPosition(
-                zoom: 14,
-                target: _destination,
-              ),
-              markers: {
-                Marker(
-                    markerId: const MarkerId('currentPosition'),
-                    icon: BitmapDescriptor.defaultMarker,
-                    position: _currentP!),
-                const Marker(
-                    markerId: MarkerId('destination'),
-                    icon: BitmapDescriptor.defaultMarker,
-                    position: _destination),
-                const Marker(
-                    markerId: MarkerId('Dhanmondi Bus'),
-                    icon: BitmapDescriptor.defaultMarker,
-                    position: _dhanmondiBus),
-              },
-            ),
+      body: GoogleMap(
+        initialCameraPosition: const CameraPosition(
+            target: LatLng(23.876456, 90.321839), zoom: 15),
+        markers: {
+          Marker(
+              markerId: const MarkerId("Initial position"),
+              position:
+                  LatLng(mqttController.latitude, mqttController.longitude),
+              icon: BitmapDescriptor.defaultMarker,
+              onTap: () {})
+        },
+      ),
     );
-  }
-
-  Future<void> _cameraToPosition(LatLng position) async {
-    final GoogleMapController controller = await _mapController.future;
-    CameraPosition _newCameraPosition =
-        CameraPosition(target: position, zoom: 18);
-    await controller
-        .animateCamera(CameraUpdate.newCameraPosition(_newCameraPosition));
-  }
-
-  Future<void> getLocationUpdate() async {
-    bool _serviceEnabled;
-    PermissionStatus _permissionStatus;
-
-    _serviceEnabled = await _locationController.serviceEnabled();
-    if (_serviceEnabled) {
-      _serviceEnabled = await _locationController.requestService();
-    } else {
-      return;
-    }
-    _permissionStatus = await _locationController.hasPermission();
-
-    if (_permissionStatus == PermissionStatus.denied) {
-      _permissionStatus = await _locationController.requestPermission();
-      if (_permissionStatus != PermissionStatus.granted) {
-        return;
-      }
-    }
-    _locationController.onLocationChanged
-        .listen((LocationData currentLocation) {
-      if (currentLocation.latitude != null &&
-          currentLocation.longitude != null) {
-        setState(() {
-          _currentP =
-              LatLng(currentLocation.latitude!, currentLocation.longitude!);
-          _cameraToPosition(_currentP!);
-        });
-      }
-    });
   }
 }

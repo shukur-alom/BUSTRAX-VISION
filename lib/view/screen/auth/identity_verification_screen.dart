@@ -31,7 +31,7 @@ class _IdentityVerificationScreenState
               ),
               Image.asset(
                 AssetsPath.identifyPerson,
-                height: 400,
+                height: 300,
                 width: 400,
               ),
               const SizedBox(
@@ -49,21 +49,19 @@ class _IdentityVerificationScreenState
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(
-                    width: 7,
+                    width: 2,
                   ),
                   Text(
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 4,
                     "This verification process confirms your "
                     "identity and determines\n your role."
                     "It authenticates whether you are a general user or\n an administrator."
-                    " Please proceed to complete the identity check\n to access relevant features.",
-                    style: GoogleFonts.ubuntu(fontSize: 14),
+                    " Please proceed to complete the identity\n check to access relevant features.",
+                    style: GoogleFonts.ubuntu(fontSize: 12),
                   ),
                 ],
               ),
               const SizedBox(
-                height: 70,
+                height: 60,
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,

@@ -1,4 +1,5 @@
 import 'package:diu_bus_tracking/view/screen/auth/student/complete_profile_screen.dart';
+import 'package:diu_bus_tracking/view/screen/map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -79,7 +80,9 @@ class _StudentLogInScreenState extends State<StudentLogInScreen> {
                         height: 60,
                         width: double.infinity,
                         child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.offAll(() => const MapScreen());
+                            },
                             child: Text(
                               "Sign in",
                               style: GoogleFonts.outfit(
