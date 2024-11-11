@@ -1,4 +1,6 @@
+import 'package:diu_bus_tracking/view/screen/auth/student/student_log_in_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CompleteProfileScreen extends StatefulWidget {
@@ -92,7 +94,9 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                                 fontSize: 18, color: Colors.grey.shade600),
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.to(() => const StudentLogInScreen());
+                            },
                             child: Text(
                               "Login",
                               style: GoogleFonts.outfit(
