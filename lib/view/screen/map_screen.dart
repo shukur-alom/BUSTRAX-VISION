@@ -13,12 +13,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  static const LatLng _destination = LatLng(23.888825, 90.322219);
-  static const LatLng _dhanmondiBus =
-      LatLng(23.755140315302626, 90.3765273962015);
-  LatLng? _currentP;
-  final Completer<GoogleMapController> _mapController =
-      Completer<GoogleMapController>();
+  final Completer<GoogleMapController> _mapController = Completer();
   final mqttController = Get.find<MqttController>();
   @override
   void initState() {
@@ -36,7 +31,7 @@ class _MapScreenState extends State<MapScreen> {
       ),
       body: GoogleMap(
         initialCameraPosition: const CameraPosition(
-            target: LatLng(23.876456, 90.321839), zoom: 15),
+            target: LatLng(23.876456, 90.321839), zoom: 13),
         markers: {
           Marker(
               markerId: const MarkerId("Initial position"),

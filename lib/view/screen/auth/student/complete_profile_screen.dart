@@ -1,7 +1,7 @@
 import 'package:diu_bus_tracking/view/screen/auth/student/student_log_in_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 class CompleteProfileScreen extends StatefulWidget {
   const CompleteProfileScreen({super.key});
@@ -75,7 +75,17 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                         height: 60,
                         width: double.infinity,
                         child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                PageTransition(
+                                  child: const StudentLogInScreen(),
+                                  type: PageTransitionType.rightToLeft,
+                                  duration: const Duration(milliseconds: 500),
+                                ),
+                                (Route<dynamic> route) => false,
+                              );
+                            },
                             child: Text(
                               "Sign in",
                               style: GoogleFonts.outfit(
@@ -95,7 +105,14 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Get.to(() => const StudentLogInScreen());
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  child: const StudentLogInScreen(),
+                                  type: PageTransitionType.rightToLeft,
+                                  duration: const Duration(milliseconds: 500),
+                                ),
+                              );
                             },
                             child: Text(
                               "Login",

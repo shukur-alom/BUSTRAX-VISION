@@ -3,6 +3,7 @@ import 'package:diu_bus_tracking/view/screen/map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 class StudentLogInScreen extends StatefulWidget {
   const StudentLogInScreen({super.key});
@@ -102,7 +103,14 @@ class _StudentLogInScreenState extends State<StudentLogInScreen> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Get.to(() => const CompleteProfileScreen());
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  child: const CompleteProfileScreen(),
+                                  type: PageTransitionType.rightToLeft,
+                                  duration: const Duration(milliseconds: 500),
+                                ),
+                              );
                             },
                             child: Text(
                               "Register Now",

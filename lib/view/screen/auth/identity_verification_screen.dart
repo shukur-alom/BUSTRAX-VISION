@@ -3,8 +3,8 @@ import 'package:diu_bus_tracking/view/screen/auth/student/complete_profile_scree
 import 'package:diu_bus_tracking/view/utility/assets_path.dart';
 import 'package:diu_bus_tracking/view/widgets/auth/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 class IdentityVerificationScreen extends StatefulWidget {
   const IdentityVerificationScreen({super.key});
@@ -70,7 +70,14 @@ class _IdentityVerificationScreenState
                     label: "Student",
                     backgroundColor: Colors.deepPurple,
                     onPressed: () {
-                      Get.to(const CompleteProfileScreen());
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          child: const CompleteProfileScreen(),
+                          type: PageTransitionType.rightToLeft,
+                          duration: const Duration(milliseconds: 500),
+                        ),
+                      );
                     },
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(8),
@@ -81,7 +88,14 @@ class _IdentityVerificationScreenState
                     label: "Admin",
                     backgroundColor: Colors.black,
                     onPressed: () {
-                      Get.to(const AdminLogInScreen());
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          child: const AdminLogInScreen(),
+                          type: PageTransitionType.rightToLeft,
+                          duration: const Duration(milliseconds: 500),
+                        ),
+                      );
                     },
                     borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(8),

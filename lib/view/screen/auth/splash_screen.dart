@@ -1,6 +1,8 @@
+import 'package:diu_bus_tracking/controller/map_controller.dart';
 import 'package:diu_bus_tracking/view/screen/map_screen.dart';
 import 'package:diu_bus_tracking/view/utility/assets_path.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
@@ -26,6 +28,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   void moveToNextScreen(context) async {
     await Future.delayed(const Duration(seconds: 3));
+    Get.find<MapController>().getCurrentLocation();
     // if (isLoggedIn) {
     Navigator.pushAndRemoveUntil(
       context,
