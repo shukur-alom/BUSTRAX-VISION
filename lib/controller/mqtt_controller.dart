@@ -24,12 +24,6 @@ class MqttController extends GetxController {
   int get satelliteConnection => _satelliteConnection.value;
   double get speed => _speed.value;
 
-  @override
-  void onInit() {
-    super.onInit();
-    connectToMqtt();
-  }
-
   Future<void> connectToMqtt() async {
     client = MqttServerClient('broker.hivemq.com', 'flutter_client');
     client.port = 1883;
@@ -64,6 +58,7 @@ class MqttController extends GetxController {
       print('Connected to broker');
       isConnected.value = true;
 
+      // Subscribe to topic after connection is established
       subscribeToTopic('test/611');
     } else {
       print('Connection failed');
@@ -80,24 +75,33 @@ class MqttController extends GetxController {
 
       mqttModel.message.value = payload;
       print('Received message: $payload');
-      final data = payload.split(',');
 
-      if (data.length >= 4) {
-        // Update the Rx variables when data is received
-        _latitude.value = double.tryParse(data[0]) ?? 0.0;
-        _longitude.value = double.tryParse(data[1]) ?? 0.0;
-        _satelliteConnection.value = int.tryParse(data[2]) ?? 0;
-        _speed.value = double.tryParse(data[3]) ?? 0.0;
-
-        print('Latitude: $latitude');
-        print('Longitude: $longitude');
-        print('Satellite Connection: $satelliteConnection');
-        print('Speed: $speed');
-      } else {
-        print('Received data does not match expected format');
-      }
-      update();
+      // Automatically process received data and update Rx variables
+      processReceivedData(payload);
     });
+  }
+
+  /// Method to process received data and update Rx variables
+  void processReceivedData(String payload) {
+    final data = payload.split(',');
+
+    if (data.length >= 4) {
+      // Update the Rx variables when data is received
+      _latitude.value = double.tryParse(data[0]) ?? 0.0;
+      _longitude.value = double.tryParse(data[1]) ?? 0.0;
+      _satelliteConnection.value = int.tryParse(data[2]) ?? 0;
+      _speed.value = double.tryParse(data[3]) ?? 0.0;
+
+      print('Latitude: $latitude');
+      print('Longitude: $longitude');
+      print('Satellite Connection: $satelliteConnection');
+      print('Speed: $speed');
+    } else {
+      print('Received data does not match expected format');
+    }
+
+    // Trigger GetX update to notify listeners
+    update();
   }
 
   void reconnect() {
@@ -128,6 +132,20 @@ class MqttController extends GetxController {
       client.disconnect();
       isConnected.value = false;
       print('Manually disconnected from broker');
+    }
+  }
+
+  void sendMessageToTopic(String topic, String payload) {
+    // Ensure the client is connected before publishing
+    if (isConnected.value) {
+      final builder = MqttClientPayloadBuilder();
+      builder.addString(payload);
+
+      // Publish the message to the specified topic
+      client.publishMessage(topic, MqttQos.atMostOnce, builder.payload!);
+      print('Published message: $payload to topic: $topic');
+    } else {
+      print('Cannot publish, MQTT client is not connected.');
     }
   }
 }

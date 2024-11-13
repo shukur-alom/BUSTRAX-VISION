@@ -1,5 +1,5 @@
-import 'package:diu_bus_tracking/controller/map_controller.dart';
-import 'package:diu_bus_tracking/view/screen/map_screen.dart';
+import 'package:diu_bus_tracking/controller/mqtt_controller.dart';
+import 'package:diu_bus_tracking/view/screen/mqtt_screen.dart';
 import 'package:diu_bus_tracking/view/utility/assets_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,12 +28,13 @@ class _SplashScreenState extends State<SplashScreen>
 
   void moveToNextScreen(context) async {
     await Future.delayed(const Duration(seconds: 3));
-    Get.find<MapController>().getCurrentLocation();
+    // Get.find<MapController>().getCurrentLocation();
+    Get.find<MqttController>().connectToMqtt();
     // if (isLoggedIn) {
     Navigator.pushAndRemoveUntil(
       context,
       PageTransition(
-          child: const MapScreen(),
+          child: const MqttScreen(),
           type: PageTransitionType.rightToLeft,
           duration: const Duration(milliseconds: 500)),
       (Route<dynamic> route) => false,
@@ -45,9 +46,8 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     _animationController.dispose();
+    super.dispose();
   }
 
   @override
