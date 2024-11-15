@@ -1,5 +1,5 @@
-import 'package:diu_bus_tracking/controller/mqtt_controller.dart';
-import 'package:diu_bus_tracking/view/screen/mqtt_screen.dart';
+import 'package:diu_bus_tracking/controller/map_controller.dart';
+import 'package:diu_bus_tracking/view/screen/map_screen.dart';
 import 'package:diu_bus_tracking/view/utility/assets_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,25 +16,26 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _animationController;
+  late AnimationController _animationController;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _animationController = AnimationController(vsync: this);
-    moveToNextScreen(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.find<MapController>().requestPermission();
+      moveToNextScreen(context);
+    });
   }
 
   void moveToNextScreen(context) async {
     await Future.delayed(const Duration(seconds: 3));
-    // Get.find<MapController>().getCurrentLocation();
-    Get.find<MqttController>().connectToMqtt();
     // if (isLoggedIn) {
     Navigator.pushAndRemoveUntil(
       context,
       PageTransition(
-          child: const MqttScreen(),
+          child: const MapScreen(),
           type: PageTransitionType.rightToLeft,
           duration: const Duration(milliseconds: 500)),
       (Route<dynamic> route) => false,

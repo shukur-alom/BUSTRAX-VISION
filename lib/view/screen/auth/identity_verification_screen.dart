@@ -1,8 +1,11 @@
+
+import 'package:diu_bus_tracking/controller/mqtt_controller.dart';
 import 'package:diu_bus_tracking/view/screen/auth/admin/admin_log_in_screen.dart';
 import 'package:diu_bus_tracking/view/screen/auth/student/complete_profile_screen.dart';
 import 'package:diu_bus_tracking/view/utility/assets_path.dart';
 import 'package:diu_bus_tracking/view/widgets/auth/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -16,6 +19,12 @@ class IdentityVerificationScreen extends StatefulWidget {
 
 class _IdentityVerificationScreenState
     extends State<IdentityVerificationScreen> {
+  @override
+  void initState() {
+    Get.find<MqttController>().connectToMqtt();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

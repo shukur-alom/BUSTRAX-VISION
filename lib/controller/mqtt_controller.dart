@@ -59,7 +59,7 @@ class MqttController extends GetxController {
       isConnected.value = true;
 
       // Subscribe to topic after connection is established
-      subscribeToTopic('test/611');
+      subscribeToTopic('topic/611');
     } else {
       print('Connection failed');
       reconnect();
