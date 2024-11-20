@@ -18,6 +18,7 @@ float latitude = 23.876835;
 float longitude = 90.320223;
 int count_se = 1;
 float v_speed = 0.0;
+int pin_number = 2;
 
 unsigned long previousMillis = 0;
 unsigned long interval = 30000; // 30 seconds for WiFi reconnection
@@ -27,12 +28,13 @@ PubSubClient mqttClient(wifiClient);
 
 const char *ssid = "IoT";
 const char *password = "61179318";
-const char *mqttServer = "broker.hivemq.com";
+const char *mqttServer = "broker.emqx.io";
 int mqttPort = 1883;
 
 void setupMQTT()
 {
     mqttClient.setServer(mqttServer, mqttPort);
+    mqttClient.setCallback(callback);
 }
 
 void reconnectMQTT()
@@ -45,6 +47,7 @@ void reconnectMQTT()
         if (mqttClient.connect(clientId.c_str()))
         {
             Serial.println("Connected to MQTT broker.");
+            mqttClient.subscribe("gps/61179");
         }
         else
         {
@@ -75,6 +78,7 @@ void setup()
     Serial.begin(115200);
     gpsSerial.begin(GPS_BAUD, SERIAL_8N1, RXD2, TXD2);
     Serial.println("Serial 2 started at 9600 baud rate");
+    pinMode(pin_number, OUTPUT);
 
     initWiFi();
     setupMQTT();
@@ -133,5 +137,30 @@ void loop()
     String payload = String(latitude, 7) + "," + String(longitude, 7) + "," + String(count_se) + "," + String(v_speed);
     mqttClient.publish("gps/53384", payload.c_str());
 
-    delay(200);
+    delay(500);
+}
+
+void callback(char *topic, byte *payload, unsigned int length)
+{
+    Serial.print("Message received on topic [");
+    Serial.print(topic);
+    Serial.print("]: ");
+    String read_data = "";
+    for (int i = 0; i < length; i++)
+    {
+        read_data += (char)payload[i];
+    }
+
+    Serial.println(read_data);
+
+    if (read_data == "1")
+    {
+        digitalWrite(pin_number, HIGH);
+    }
+    else if (read_data == "0")
+    {
+        digitalWrite(pin_number, LOW);
+    }
+
+    delay(500);
 }
