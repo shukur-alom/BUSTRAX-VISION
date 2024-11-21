@@ -135,39 +135,41 @@ class _MapScreenState extends State<MapScreen> {
               // Location & Speed Info
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(
-                      children: [
-                        const Icon(Icons.location_pin,
-                            color: Colors.deepPurple),
-                        Text(
-                            "Lat: ${mqttController.latitude.toStringAsFixed(4)}"),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        const Icon(Icons.location_pin,
-                            color: Colors.deepPurple),
-                        Text(
-                            "Lon: ${mqttController.longitude.toStringAsFixed(4)}"),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        const Icon(Icons.satellite, color: Colors.deepPurple),
-                        Text("Sat: ${mqttController.satelliteConnection}"),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        const Icon(Icons.speed, color: Colors.deepPurple),
-                        Text("Speed: ${mqttController.speed} km/h"),
-                      ],
-                    ),
-                  ],
-                ),
+                child: GetBuilder<MqttController>(builder: (controller) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        children: [
+                          const Icon(Icons.location_pin,
+                              color: Colors.deepPurple),
+                          Text(
+                              "Lat: ${controller.latitude.toStringAsFixed(4)}"),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          const Icon(Icons.location_pin,
+                              color: Colors.deepPurple),
+                          Text(
+                              "Lon: ${controller.longitude.toStringAsFixed(4)}"),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          const Icon(Icons.satellite, color: Colors.deepPurple),
+                          Text("Sat: ${controller.satelliteConnection}"),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          const Icon(Icons.speed, color: Colors.deepPurple),
+                          Text("Speed: ${controller.speed} km/h"),
+                        ],
+                      ),
+                    ],
+                  );
+                }),
               ),
               const Divider(height: 20),
 
