@@ -1,5 +1,5 @@
 import 'package:diu_bus_tracking/controller/map_controller.dart';
-import 'package:diu_bus_tracking/view/screen/map_screen.dart';
+import 'package:diu_bus_tracking/view/screen/auth/identity_verification_screen.dart';
 import 'package:diu_bus_tracking/view/utility/assets_path.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen>
     Navigator.pushAndRemoveUntil(
       context,
       PageTransition(
-          child: const MapScreen(),
+          child: const IdentityVerificationScreen(),
           type: PageTransitionType.rightToLeft,
           duration: const Duration(milliseconds: 500)),
       (Route<dynamic> route) => false,
@@ -68,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(
-                height: 180,
+                height: 130,
               ),
               Text(
                 "DIU Bus\n Tracker",

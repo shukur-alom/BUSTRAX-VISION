@@ -12,10 +12,17 @@ class MqttController extends GetxController {
   late MqttServerClient client;
   var isConnected = false.obs;
 
+  // Flag to track if the client has connected at least once
+  bool hasConnectedOnce = false;
+
+  // Reconnect attempt counter
+  int reconnectAttempts = 0;
+  final int maxReconnectAttempts = 3; // Max number of reconnection attempts
+
   // Define Rx variables for latitude, longitude, satelliteConnection, and speed
-  final RxDouble _latitude = 0.0.obs;
-  final RxDouble _longitude = 0.0.obs;
-  final RxInt _satelliteConnection = 0.obs;
+  final RxDouble _latitude = 23.876835.obs;
+  final RxDouble _longitude = 90.320223.obs;
+  final RxInt _satelliteConnection = 1.obs;
   final RxDouble _speed = 0.0.obs;
 
   // Getters to expose these variables
@@ -25,23 +32,30 @@ class MqttController extends GetxController {
   double get speed => _speed.value;
 
   Future<void> connectToMqtt() async {
-    client = MqttServerClient('broker.hivemq.com', 'flutter_client');
+    if (hasConnectedOnce) {
+      // If already connected, skip the connection logic
+      print('Already connected, skipping connection attempt.');
+      return;
+    }
+
+    client = MqttServerClient('broker.emqx.io', 'flutter_mqtt_client');
     client.port = 1883;
-    client.keepAlivePeriod = 20; // Keep the connection alive
-    client.autoReconnect = true; // Enable auto-reconnect
+    client.keepAlivePeriod = 20;
+    client.autoReconnect = false; // Disable auto-reconnect
     client.logging(on: false);
     client.onDisconnected = onDisconnected;
     client.onConnected = onConnected;
     client.onSubscribed = onSubscribed;
     client.pongCallback = pong;
+    client.setProtocolV311();
 
-    final connMessage = MqttConnectMessage()
-        .withClientIdentifier('Mqtt_MyClientUniqueId')
+    client.connectionMessage = MqttConnectMessage()
+        .withClientIdentifier("flutter_mqtt_client")
+        .keepAliveFor(20)
         .withWillTopic('willtopic')
-        .withWillMessage('My Will message')
+        .withWillMessage('Client disconnected unexpectedly')
         .startClean()
         .withWillQos(MqttQos.atLeastOnce);
-    client.connectionMessage = connMessage;
 
     try {
       print('Trying to connect...');
@@ -57,9 +71,10 @@ class MqttController extends GetxController {
     if (client.connectionStatus?.state == MqttConnectionState.connected) {
       print('Connected to broker');
       isConnected.value = true;
+      hasConnectedOnce = true; // Set the flag after a successful connection
 
       // Subscribe to topic after connection is established
-      subscribeToTopic('topic/611');
+      subscribeToTopic('gps/53384');
     } else {
       print('Connection failed');
       reconnect();
@@ -105,11 +120,15 @@ class MqttController extends GetxController {
   }
 
   void reconnect() {
-    if (!isConnected.value) {
+    if (reconnectAttempts < maxReconnectAttempts) {
+      reconnectAttempts++;
       Future.delayed(Duration(seconds: 5), () {
-        print('Attempting to reconnect...');
+        print(
+            'Attempting to reconnect ($reconnectAttempts/$maxReconnectAttempts)...');
         connectToMqtt();
       });
+    } else {
+      print('Max reconnect attempts reached. Stopping further attempts.');
     }
   }
 
@@ -121,7 +140,9 @@ class MqttController extends GetxController {
   void onDisconnected() {
     print('Disconnected from the broker');
     isConnected.value = false;
-    reconnect(); // Attempt to reconnect when disconnected
+    if (!hasConnectedOnce) {
+      reconnect(); // Only reconnect if it has not connected successfully before
+    }
   }
 
   void onSubscribed(String topic) => print('Subscribed to topic: $topic');

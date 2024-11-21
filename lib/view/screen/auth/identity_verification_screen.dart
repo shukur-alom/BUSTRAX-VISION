@@ -1,7 +1,8 @@
-
 import 'package:diu_bus_tracking/controller/mqtt_controller.dart';
+import 'package:diu_bus_tracking/controller/person_identification_controller.dart';
 import 'package:diu_bus_tracking/view/screen/auth/admin/admin_log_in_screen.dart';
 import 'package:diu_bus_tracking/view/screen/auth/student/complete_profile_screen.dart';
+import 'package:diu_bus_tracking/view/utility/app_theme_data.dart';
 import 'package:diu_bus_tracking/view/utility/assets_path.dart';
 import 'package:diu_bus_tracking/view/widgets/auth/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,8 @@ class _IdentityVerificationScreenState
     Get.find<MqttController>().connectToMqtt();
     super.initState();
   }
+
+  final identificationController = Get.find<PersonIdentificationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +82,8 @@ class _IdentityVerificationScreenState
                     label: "Student",
                     backgroundColor: Colors.deepPurple,
                     onPressed: () {
+                      Get.changeTheme(AppThemeData.studentThemeData);
+                      identificationController.changeItToStudent();
                       Navigator.push(
                         context,
                         PageTransition(
@@ -97,6 +102,8 @@ class _IdentityVerificationScreenState
                     label: "Admin",
                     backgroundColor: Colors.black,
                     onPressed: () {
+                      Get.changeTheme(AppThemeData.adminThemeData);
+                      identificationController.changeItToAdmin();
                       Navigator.push(
                         context,
                         PageTransition(
