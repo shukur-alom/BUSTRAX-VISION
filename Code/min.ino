@@ -87,6 +87,8 @@ void setup()
 
 void loop()
 {
+    v_speed = 0.0;
+
     if (WiFi.status() != WL_CONNECTED)
     {
         unsigned long currentMillis = millis();
