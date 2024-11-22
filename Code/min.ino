@@ -79,6 +79,7 @@ void setup()
     gpsSerial.begin(GPS_BAUD, SERIAL_8N1, RXD2, TXD2);
     Serial.println("Serial 2 started at 9600 baud rate");
     pinMode(pin_number, OUTPUT);
+    digitalWrite(pin_number, HIGH);
 
     initWiFi();
     setupMQTT();
@@ -155,6 +156,7 @@ void callback(char *topic, byte *payload, unsigned int length)
 
     if (read_data == "1")
     {
+
         digitalWrite(pin_number, HIGH);
     }
     else if (read_data == "0")
