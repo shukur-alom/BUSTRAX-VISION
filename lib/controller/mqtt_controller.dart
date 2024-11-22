@@ -122,7 +122,7 @@ class MqttController extends GetxController {
   void reconnect() {
     if (reconnectAttempts < maxReconnectAttempts) {
       reconnectAttempts++;
-      Future.delayed(Duration(seconds: 5), () {
+      Future.delayed(const Duration(seconds: 5), () {
         print(
             'Attempting to reconnect ($reconnectAttempts/$maxReconnectAttempts)...');
         connectToMqtt();

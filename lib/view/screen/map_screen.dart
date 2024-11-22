@@ -22,6 +22,8 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   final Completer<GoogleMapController> _mapController = Completer();
   final mqttController = Get.find<MqttController>();
+  final identityController =
+      Get.find<PersonIdentificationController>().isStudent;
 
   @override
   void initState() {
@@ -69,7 +71,9 @@ class _MapScreenState extends State<MapScreen> {
             children: [
               // Top Section with Image and Bus Info
               Container(
-                color: Colors.deepPurple.withOpacity(0.3),
+                color: identityController
+                    ? Colors.deepPurple.withOpacity(0.3)
+                    : Colors.black87,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -83,6 +87,11 @@ class _MapScreenState extends State<MapScreen> {
                             style: GoogleFonts.outfit(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
+                              color: Get.find<PersonIdentificationController>()
+                                          .isStudent ==
+                                      true
+                                  ? Colors.black
+                                  : Colors.white,
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -103,7 +112,15 @@ class _MapScreenState extends State<MapScreen> {
                                   statusController.isBusMoving
                                       ? 'Moving'
                                       : 'Static',
-                                  style: GoogleFonts.outfit(fontSize: 16),
+                                  style: GoogleFonts.outfit(
+                                    fontSize: 16,
+                                    color:
+                                        Get.find<PersonIdentificationController>()
+                                                    .isStudent ==
+                                                true
+                                            ? Colors.black
+                                            : Colors.white,
+                                  ),
                                 ),
                               ],
                             );
@@ -141,29 +158,39 @@ class _MapScreenState extends State<MapScreen> {
                     children: [
                       Column(
                         children: [
-                          const Icon(Icons.location_pin,
-                              color: Colors.deepPurple),
+                          Icon(Icons.location_pin,
+                              color: identityController
+                                  ? Colors.deepPurple
+                                  : Colors.black87),
                           Text(
                               "Lat: ${controller.latitude.toStringAsFixed(4)}"),
                         ],
                       ),
                       Column(
                         children: [
-                          const Icon(Icons.location_pin,
-                              color: Colors.deepPurple),
+                          Icon(Icons.location_pin,
+                              color: identityController
+                                  ? Colors.deepPurple
+                                  : Colors.black87),
                           Text(
                               "Lon: ${controller.longitude.toStringAsFixed(4)}"),
                         ],
                       ),
                       Column(
                         children: [
-                          const Icon(Icons.satellite, color: Colors.deepPurple),
+                          Icon(Icons.satellite,
+                              color: identityController
+                                  ? Colors.deepPurple
+                                  : Colors.black87),
                           Text("Sat: ${controller.satelliteConnection}"),
                         ],
                       ),
                       Column(
                         children: [
-                          const Icon(Icons.speed, color: Colors.deepPurple),
+                          Icon(Icons.speed,
+                              color: identityController
+                                  ? Colors.deepPurple
+                                  : Colors.black87),
                           Text("Speed: ${controller.speed} km/h"),
                         ],
                       ),
@@ -190,7 +217,9 @@ class _MapScreenState extends State<MapScreen> {
                     ),
                     Image.asset(
                       AssetsPath.busSpeedIcon,
-                      color: Colors.deepPurple,
+                      color: identityController
+                          ? Colors.deepPurple
+                          : Colors.black87,
                       width: 50,
                       height: 50,
                     ),
@@ -260,7 +289,13 @@ class _MapScreenState extends State<MapScreen> {
                                 Get.snackbar(
                                     "Bus Schedule", "Showing bus schedule...");
                               },
-                              child: const Text("View Schedule"),
+                              child: Text(
+                                "View Schedule",
+                                style: TextStyle(
+                                    color: identityController
+                                        ? Colors.deepPurple
+                                        : Colors.black87),
+                              ),
                             ),
                           ],
                         );
@@ -279,7 +314,9 @@ class _MapScreenState extends State<MapScreen> {
       appBar: AppBar(
         title: Text('Track Your Bus',
             style: GoogleFonts.outfit(color: Colors.white)),
-        backgroundColor: Colors.deepPurple.withOpacity(0.8),
+        backgroundColor: identityController
+            ? Colors.deepPurple.withOpacity(0.8)
+            : Colors.black87,
         centerTitle: true,
         actions: [
           IconButton(
@@ -354,7 +391,9 @@ class _MapScreenState extends State<MapScreen> {
               right: 16,
               child: FloatingActionButton(
                 onPressed: _moveToCurrentLocation,
-                backgroundColor: Colors.deepPurple.withOpacity(0.8),
+                backgroundColor: identityController
+                    ? Colors.deepPurple.withOpacity(0.8)
+                    : Colors.black87,
                 child: const Icon(Icons.my_location, color: Colors.white),
               ),
             ),

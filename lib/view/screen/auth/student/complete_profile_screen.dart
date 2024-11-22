@@ -149,6 +149,11 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                                 ),
                                 (Route<dynamic> route) => false,
                               );
+                            } else {
+                              Get.snackbar(
+                                  backgroundColor: Colors.redAccent,
+                                  "Something went wrong!",
+                                  "Try again");
                             }
                           },
                           child: Text(
@@ -170,21 +175,14 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                         ),
                         TextButton(
                           onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              Navigator.push(
-                                context,
-                                PageTransition(
-                                  child: const StudentLogInScreen(),
-                                  type: PageTransitionType.rightToLeft,
-                                  duration: const Duration(milliseconds: 500),
-                                ),
-                              );
-                            } else {
-                              Get.snackbar(
-                                  backgroundColor: Colors.redAccent,
-                                  "Something went wrong!",
-                                  "Try again");
-                            }
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                child: const StudentLogInScreen(),
+                                type: PageTransitionType.rightToLeft,
+                                duration: const Duration(milliseconds: 500),
+                              ),
+                            );
                           },
                           child: Text(
                             "Login",

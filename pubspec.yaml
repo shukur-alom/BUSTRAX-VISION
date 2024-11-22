@@ -43,6 +43,7 @@ dependencies:
   flutter_native_splash: ^2.4.2
   page_transition: ^2.1.0
   location: ^7.0.1
+  shared_preferences: ^2.3.3
 
 
 
