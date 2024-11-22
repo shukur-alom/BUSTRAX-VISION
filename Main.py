@@ -33,7 +33,7 @@ st.subheader("Daffodil Bus Tracking System")
 # MQTT client setup
 try:
     client = paho.Client()
-    client.connect('broker.hivemq.com', 1883)
+    client.connect('broker.emqx.io', 1883)
     client.loop_start()
     client.subscribe('gps/53384', qos=1)
 
