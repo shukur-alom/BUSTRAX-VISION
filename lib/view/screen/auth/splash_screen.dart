@@ -71,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen>
                 height: 130,
               ),
               Text(
-                "DIU Bus\n Tracker",
+                "BUSTRAX\n   VISION",
                 style: GoogleFonts.acme(
                     color: Colors.deepPurple,
                     fontSize: 50,
