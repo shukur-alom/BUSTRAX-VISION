@@ -45,12 +45,12 @@ class _AdminLogInScreenState extends State<AdminLogInScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(
-                  height: 50,
+                  height: 40,
                 ),
                 Text(
                   "Lets Sign you in",
                   style: GoogleFonts.outfit(
-                      fontSize: 45, fontWeight: FontWeight.bold),
+                      fontSize: 40, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 20,
@@ -59,7 +59,7 @@ class _AdminLogInScreenState extends State<AdminLogInScreen> {
                   'Welcome back ,\n'
                   'You have been missed',
                   style: GoogleFonts.outfit(
-                    fontSize: 30,
+                    fontSize: 22,
                   ),
                 ),
                 const SizedBox(
@@ -120,7 +120,7 @@ class _AdminLogInScreenState extends State<AdminLogInScreen> {
                   ],
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 SizedBox(
                   height: 60,
@@ -131,6 +131,8 @@ class _AdminLogInScreenState extends State<AdminLogInScreen> {
                           Get.offAll(() => const MapScreen());
                         }
                       },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black),
                       child: Text(
                         "Sign in",
                         style: GoogleFonts.outfit(
