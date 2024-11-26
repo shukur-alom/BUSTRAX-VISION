@@ -21,7 +21,7 @@ speed = 0.0
 def on_message(client, userdata, msg):
     global latitude, longitude, set_count, speed
     # if msg.topic == "gps/53384":
-    #     print(str(msg.payload))
+    #print(str(msg.payload))
 
 while True:
     time.sleep(2)
