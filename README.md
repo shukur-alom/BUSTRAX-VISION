@@ -2,7 +2,7 @@
 
 ## Overview
 
-BUSTRAX VISION is an innovative, all-encompassing solution that tackles the complexities of modern transportation management. By integrating IoT devices with a robust web application and a user-friendly mobile app, BUSTRAX VISION offers an intelligent system for tracking, managing, and optimizing transportation networks.
+BUSTRAX VISION is an innovative, all-encompassing solution that tack the complexities of modern transportation management. By integrating IoT devices with a robust web application and a user-friendly mobile app, BUSTRAX VISION offers an intelligent system for tracking, managing, and optimizing transportation networks.
 
 At its core, BUSTRAX VISION utilizes advanced IoT technology to gather real-time data from vehicles. These IoT devices, embedded within the transport system, continuously monitor and transmit critical parameters such as location, speed, and vehicle status. This real-time data ensures efficient operations, proactive decision-making, and enhanced safety.
 
