@@ -12,6 +12,13 @@ At its core, BUSTRAX VISION utilizes advanced IoT technology to gather real-time
 
 BUSTRAX VISION leverages IoT devices to provide live updates on vehicle movements, operational parameters, and potential anomalies. These insights allow administrators to make data-driven decisions that improve fleet efficiency and minimize risks.
 
+### User-Friendly Mobile App
+
+Designed for convenience, the mobile app serves Admin and passengers:
+
+- **For Passengers**: View real-time vehicle locations, estimated arrival times, and route updates, ensuring a seamless travel experience.
+- **For Admin**: Monitor vehicle movements on an interactive map, define operational boundaries for vehicles with alerts for zone breaches, and remotely stop vehicles in case of unauthorized use or theft, ensuring enhanced security.
+
 ### Advanced Web Application for Administrators
 
 The solution includes a feature-rich web platform designed for administrative control:
@@ -19,13 +26,6 @@ The solution includes a feature-rich web platform designed for administrative co
 - **Live Tracking**: Monitor vehicle movements on an interactive map.
 - **Geo-Fencing**: Define operational boundaries for vehicles, triggering alerts when they move outside designated zones.
 - **Remote Vehicle Control**: In case of unauthorized use or theft, administrators can remotely stop the vehicle, ensuring enhanced security.
-
-### User-Friendly Mobile App
-
-Designed for convenience, the mobile app serves Admin and passengers:
-
-- **For Passengers**: View real-time vehicle locations, estimated arrival times, and route updates, ensuring a seamless travel experience.
-- **For Admin**: Monitor vehicle movements on an interactive map, define operational boundaries for vehicles with alerts for zone breaches, and remotely stop vehicles in case of unauthorized use or theft, ensuring enhanced security.
 
 
 ## IoT Code Upload
