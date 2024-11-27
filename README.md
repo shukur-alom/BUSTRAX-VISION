@@ -46,32 +46,6 @@ To upload the code to the IoT devices, follow these steps:
 5. **Upload the Code**: Click the upload button to flash the code onto the IoT device.
 6. **Verify Operation**: Once the upload is complete, the device will begin collecting and transmitting data.
 
-## Web Application
-
-The web application provides an interface for users to monitor the transportation system. It displays real-time bus locations, allowing users to track the current position of buses and plan their journeys accordingly.
-
-![Web Application](https://github.com/shukur-alom/DIU-Transport-Track/blob/master/Media/CODE%208_page-0008.jpg)
-
-### How to Set Up and Run the Web Application
-
-To set up and run the web application, follow these steps:
-
-1. **Clone the Repository**: Clone the repository to your local machine:
-    ```bash
-    git clone https://github.com/your-repo/DIU-Transport-Track.git
-    ```
-2. **Navigate to Directory**: Change to the web application directory:
-    ```bash
-    cd DIU-Transport-Track
-    ```
-3. **Install Dependencies**: Install the required dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-4. **Start the Server**: Start the Streamlit server:
-    ```bash
-    streamlit run app.py
-    ```
 
 ## Mobile App
 
@@ -99,6 +73,34 @@ To run the mobile app, follow these steps:
     ```bash
     npm run android   # For Android
     npm run ios       # For iOS
+    ```
+
+
+## Web Application
+
+The web application provides an interface for users to monitor the transportation system. It displays real-time bus locations, allowing users to track the current position of buses and plan their journeys accordingly.
+
+![Web Application](https://github.com/shukur-alom/DIU-Transport-Track/blob/master/Media/CODE%208_page-0008.jpg)
+
+### How to Set Up and Run the Web Application
+
+To set up and run the web application, follow these steps:
+
+1. **Clone the Repository**: Clone the repository to your local machine:
+    ```bash
+    git clone https://github.com/your-repo/DIU-Transport-Track.git
+    ```
+2. **Navigate to Directory**: Change to the web application directory:
+    ```bash
+    cd DIU-Transport-Track
+    ```
+3. **Install Dependencies**: Install the required dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+4. **Start the Server**: Start the Streamlit server:
+    ```bash
+    streamlit run app.py
     ```
 
 ## Conclusion
