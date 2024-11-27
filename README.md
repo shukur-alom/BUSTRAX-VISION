@@ -32,7 +32,7 @@ The solution includes a feature-rich web platform designed for administrative co
 
 The IoT devices are programmed to collect and transmit data related to the transportation system. The code for these devices is uploaded to the microcontrollers, which then communicate with the central server to provide real-time tracking and monitoring.
 
-![IoT Device](https://github.com/shukur-alom/DIU-Transport-Track/blob/master/Circuit%20Diagram/main.png)
+![IoT Device](https://github.com/shukur-alom/DIU-Transport-Track/blob/master/IOT%20Device/Circuit%20Diagram/main.png)
 
 
 ### How to Upload IoT Device Code
@@ -41,7 +41,7 @@ To upload the code to the IoT devices, follow these steps:
 
 1. **Connect the Device**: Use a USB cable to connect the IoT device to your computer.
 2. **Open Programming Environment**: Launch the Arduino IDE or your preferred microcontroller programming environment.
-3. **Load the Code**: Navigate to the `/Code/min.ino` directory and load the IoT device code.
+3. **Load the Code**: Navigate to the `/IOT Device/Code/min.ino` directory and load the IoT device code.
 4. **Select Board and Port**: From the Tools menu, select the appropriate board and port.
 5. **Upload the Code**: Click the upload button to flash the code onto the IoT device.
 6. **Verify Operation**: Once the upload is complete, the device will begin collecting and transmitting data.
@@ -51,7 +51,7 @@ To upload the code to the IoT devices, follow these steps:
 
 The mobile app offers similar functionalities to the web application but is optimized for mobile devices. It allows users to track vehicles, receive notifications, and access transportation information on the go. The app ensures that users have access to the transportation system anytime, anywhere.
 
-![Mobile App](https://github.com/shukur-alom/DIU-Transport-Track/blob/master/Media/CODE%208_page-0007.jpg)
+![Mobile App](https://github.com/shukur-alom/BUSTRAX-VISION/blob/master/Media/CODE%208_page-0007.jpg)
 
 ### How to Run the Mobile App
 
@@ -59,11 +59,11 @@ To run the mobile app, follow these steps:
 
 1. **Clone the Repository**: Clone the repository to your local machine:
     ```bash
-    git clone https://github.com/your-repo/DIU-Transport-Track.git
+    git clone https://github.com/shukur-alom/BUSTRAX-VISION.git
     ```
 2. **Navigate to Directory**: Change to the mobile app directory:
     ```bash
-    cd DIU-Transport-Track/mobile-app
+    cd BUSTRAX-VISION/Mobile App
     ```
 3. **Install Dependencies**: Install the required dependencies:
     ```bash
@@ -80,7 +80,7 @@ To run the mobile app, follow these steps:
 
 The web application provides an interface for users to monitor the transportation system. It displays real-time bus locations, allowing users to track the current position of buses and plan their journeys accordingly.
 
-![Web Application](https://github.com/shukur-alom/DIU-Transport-Track/blob/master/Media/CODE%208_page-0008.jpg)
+![Web Application](https://github.com/shukur-alom/BUSTRAX-VISION/blob/master/Media/CODE%208_page-0008.jpg)
 
 ### How to Set Up and Run the Web Application
 
@@ -88,11 +88,11 @@ To set up and run the web application, follow these steps:
 
 1. **Clone the Repository**: Clone the repository to your local machine:
     ```bash
-    git clone https://github.com/your-repo/DIU-Transport-Track.git
+    git clone https://github.com/shukur-alom/BUSTRAX-VISION.git
     ```
 2. **Navigate to Directory**: Change to the web application directory:
     ```bash
-    cd DIU-Transport-Track
+    cd BUSTRAX-VISION/webapp
     ```
 3. **Install Dependencies**: Install the required dependencies:
     ```bash
